@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="{% static 'feedback/style.css' %}">
+</head>
+<body>
+   <div class="container">    
+   <h1 class = "text-senter-mt5">Create Profile</h1>
+   <h5 class = "text-succes texy-center"></h5>
+    <form class="container mt-5" id = "post-form">
+       {% csrf_token %}
+        
+    <div class = "mb-3 mr-5">
+        <input type="text" class = "form-control" id = "full_name" name = "full_name" placeholder="Full Name">
+    </div>
+    <div>
+        <input type="email" class = "form-control" id = "bio" name = "bio" placeholder="Bio">
+    </div>
+    <div>
+        <input type="number" class = "form-control" id = "phone" name = "phone" placeholder="Phone">
+    </div>
+    
+    <button type = "submit" class = "btn btn-sucess">Sumbit</button>
+
+</form>    
+</div>    
+
+<script type="text/javascript">
+    $(document).on("submit", "#post-form", function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/create",
+            data: {
+                full_name: $("#full_name").val(),
+                bio: $("#bio").val(),
+                email: $("#email").val(),
+                phone: $("#phone").val(),
+                csrfmiddlewaretoken: $("input[name~csrfmiddlewaretoken]").val()
+            },
+            success: function(data){
+            $("h5").html(data)                
+            }
+        })
+    })
+</script>
+
+
+</body>
+</html>
